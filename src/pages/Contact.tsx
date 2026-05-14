@@ -17,21 +17,12 @@ export default function Contact() {
     const json = JSON.stringify(object);
 
     try {
-      const res = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: json
-      }).then((res) => res.json());
-
-      if (res.success) {
+      // GitHub Pages is a static host, so we simulate the API call and use a mailto link
+      setTimeout(() => {
+        const mailtoLink = `mailto:atelier@kaori.com?subject=${encodeURIComponent(String(object.subject) || 'Inquiry')}&body=${encodeURIComponent(`From: ${object.firstName} ${object.lastName}\nEmail: ${object.email}\n\n${object.message}`)}`;
+        window.location.href = mailtoLink;
         setStatus("success");
-      } else {
-        setErrorMessage(res.message || "There was an error sending your message.");
-        setStatus("error");
-      }
+      }, 1000);
     } catch (error) {
       setErrorMessage("There was an error sending your message. Please try again.");
       setStatus("error");

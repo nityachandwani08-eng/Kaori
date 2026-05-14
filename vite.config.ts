@@ -6,9 +6,21 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
+    base: './',
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
+            'motion-vendor': ['motion']
+          }
+        }
+      }
     },
     resolve: {
       alias: {

@@ -91,7 +91,7 @@ export default function VideoExperience() {
           {/* The video element */}
           <video
             ref={videoRef}
-            src="/scene-2.mp4"
+            src={`${import.meta.env.BASE_URL}scene-2.mp4`}
             className="w-full h-full object-cover opacity-90"
             preload="auto"
             muted

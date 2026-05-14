@@ -15,12 +15,13 @@ import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
 import Magnetic from './components/Magnetic';
 import { motion, AnimatePresence } from 'motion/react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import About from './pages/About';
-import Product3D from './pages/Product3D';
-import Contact from './pages/Contact';
-import VideoExperience from './pages/VideoExperience';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect, Suspense, lazy } from 'react';
+
+const About = lazy(() => import('./pages/About'));
+const Product3D = lazy(() => import('./pages/Product3D'));
+const Contact = lazy(() => import('./pages/Contact'));
+const VideoExperience = lazy(() => import('./pages/VideoExperience'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -73,7 +74,7 @@ function Home() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ScrollToTop />
       <div className="min-h-screen bg-kaori-teal selection:bg-white selection:text-kaori-teal relative font-sans text-white">
         {/* Universal Grid Overlay */}
@@ -93,19 +94,21 @@ export default function App() {
         
         <main className="relative z-10">
           <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/product-3d" element={<Product3D />} />
-              <Route path="/video-experience" element={<VideoExperience />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
+            <Suspense fallback={<div className="h-screen w-full bg-kaori-teal flex items-center justify-center">Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/product-3d" element={<Product3D />} />
+                <Route path="/video-experience" element={<VideoExperience />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </Suspense>
           </AnimatePresence>
         </main>
 
         <Footer />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

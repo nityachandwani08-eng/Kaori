@@ -71,7 +71,7 @@ function ProceduralBottle() {
 }
 
 function ProductModel() {
-  const { scene } = useGLTF('/product/Meshy_AI_Bleu_de_Chanel_0506122301_texture.glb');
+  const { scene } = useGLTF(`${import.meta.env.BASE_URL}product/Meshy_AI_Bleu_de_Chanel_0506122301_texture.glb`);
   
   return (
     <primitive object={scene} scale={2} position={[0, -1, 0]} />
